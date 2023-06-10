@@ -14,7 +14,8 @@ export const UserProvider = ({children}) => {
         initialUsers,
         visibleForm,
         handlerCloseForm,
-        handlerShowForm
+        handlerShowForm,
+        getUsers
       } = useUsers();
 
  
@@ -30,7 +31,8 @@ export const UserProvider = ({children}) => {
                 initialUsers,
                 visibleForm,
                 handlerCloseForm,
-                handlerShowForm
+                handlerShowForm,
+                getUsers
             }}
         >
             {children}

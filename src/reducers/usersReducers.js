@@ -6,7 +6,6 @@ export const userSigninReducer = (state = [], action) => {
                 ...state,
                 {
                     ...action.payload,
-                    id: new Date().getTime()
                 }
             ]
         case 'removeUser':
@@ -23,6 +22,8 @@ export const userSigninReducer = (state = [], action) => {
                 return user;
                 
             })
+        case 'loadingUsers':
+            return action.payload;
         default:
             return state;
     }

@@ -2,15 +2,9 @@ import { useReducer, useState } from "react";
 import { userSigninReducer } from "../reducers/usersReducers";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { findAll, remove, save, update } from "../services/userService";
 
-const initialUsers = [
-    { 
-      id: 1, 
-      username: 'John', 
-      password: 'Doe', 
-      email: 'correo'
-    }
-  ];
+const initialUsers = [];
   
   const initialUserForm = {
     id: 0,
@@ -26,13 +20,27 @@ const initialUsers = [
     const [visibleForm, setVisibleForm] = useState(false)
 
     const navigate = useNavigate()
+
+    const getUsers = async () => {
+      const result = await findAll();
+      dispatch({
+        type: 'loadingUsers',
+        payload: result.data
+      })
+    }
   
-    const handlerAddUser = (user) => {
+    const handlerAddUser = async (user) => {
         console.log(user);
-    
+        let res;
+        if(user.id === 0){
+          res = await save(user);
+        }else{
+          res = await update(user);
+        }
+        
         dispatch({
           type: (user.id === 0) ? 'addUser' : 'updateUser',
-          payload: user
+          payload: res.data
         })
         
 
@@ -58,6 +66,7 @@ const initialUsers = [
             confirmButtonText: 'Yes, delete it!'
           }).then((result) => {
             if (result.isConfirmed) {
+                remove(id);
                 dispatch({
                     type: 'removeUser',
                     payload: id
@@ -99,6 +108,8 @@ const initialUsers = [
         visibleForm,
         setVisibleForm,
         handlerCloseForm,
-        handlerShowForm
+        handlerShowForm,
+        getUsers
+
     }
  }
