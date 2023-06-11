@@ -10,8 +10,9 @@ export const findAll = async () => {
         return res;
     } catch (error) {
         console.log(error);
+        throw error;
     }
-    return null;
+    // return null;
 
 
 }
@@ -22,8 +23,9 @@ export const save = async ({username, email, password }) => {
         return await axios.post(API_URL, {username, password, email})
     } catch (error) {
         console.log(error);
+        throw error;
     }
-    return null;
+    // return null;
 }
 
 
@@ -32,6 +34,7 @@ export const update = async ({id, username, email }) => {
         return await axios.put(`${API_URL}/${id}`, {username, email})
     } catch (error) {
         console.log(error);
+        throw error;
     }
     return null;
 }

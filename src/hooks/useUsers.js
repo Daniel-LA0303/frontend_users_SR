@@ -13,12 +13,19 @@ const initialUsers = [];
     email: ''
   }
 
+  const initialErrors = {
+    username: '',
+    password: '',
+    email: ''
+  }
+
  export const useUsers = () => {
 
     const [users, dispatch] = useReducer(userSigninReducer, initialUsers)
     const [userSelected, setUserSelected] = useState(initialUserForm) 
     const [visibleForm, setVisibleForm] = useState(false)
 
+    const [errors, setErrors] = useState(initialErrors)
     const navigate = useNavigate()
 
     const getUsers = async () => {
@@ -32,25 +39,46 @@ const initialUsers = [];
     const handlerAddUser = async (user) => {
         console.log(user);
         let res;
-        if(user.id === 0){
-          res = await save(user);
-        }else{
-          res = await update(user);
-        }
-        
-        dispatch({
-          type: (user.id === 0) ? 'addUser' : 'updateUser',
-          payload: res.data
-        })
-        
 
-        Swal.fire(
-            (user.id === 0) ? 'Usuario Agregado!' : 'Usuario Actualizado!',
-            (user.id === 0) ? 'El usuario se agrego correctamente' : 'El usuario se actualizo correctamente',
-            'success'
-          )
-        handlerCloseForm();
-        navigate('/users')
+        try {
+          if(user.id === 0){
+            res = await save(user);
+          }else{
+            res = await update(user);
+          }
+          
+          dispatch({
+            type: (user.id === 0) ? 'addUser' : 'updateUser',
+            payload: res.data
+          })
+          
+  
+          Swal.fire(
+              (user.id === 0) ? 'Usuario Agregado!' : 'Usuario Actualizado!',
+              (user.id === 0) ? 'El usuario se agrego correctamente' : 'El usuario se actualizo correctamente',
+              'success'
+            )
+          handlerCloseForm();
+          navigate('/users')
+        } catch (error) {
+          console.log(error);
+          if(error.response.status && error.response.status === 400){
+            setErrors(error.response.data)
+          }else if(error.response && error.response.status === 500 && error.response.data?.message?.includes('constraint')){
+            if(error.response.data?.message?.includes('UK_username')){
+              setErrors({username: 'El nombre de usuario ya existe'})
+
+            }
+            if(error.response.data?.message?.includes('UK_email')){
+              setErrors({email: 'El email ya existe'})
+
+            }
+          }else{
+            throw error;
+          }
+        }
+
+
       }
     
       const handlerRemoveUser = (id) => {
@@ -95,6 +123,7 @@ const initialUsers = [];
       const handlerCloseForm = () => {
         setVisibleForm(false);
         setUserSelected(initialUserForm);
+        setErrors({})
       }
 
     return {
@@ -109,7 +138,7 @@ const initialUsers = [];
         setVisibleForm,
         handlerCloseForm,
         handlerShowForm,
-        getUsers
-
+        getUsers,
+        errors,
     }
  }

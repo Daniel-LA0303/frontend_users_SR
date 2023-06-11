@@ -6,7 +6,7 @@ import { UserContext } from '../context/userContext';
 
 const UserForm = ({userSelected, handlerCloseForm}) => {
 
-    const {initialUserForm, handlerAddUser} = useContext(UserContext)
+    const {initialUserForm, handlerAddUser, errors} = useContext(UserContext)
 
     const [userForm, setUserForm] = useState(initialUserForm);
 
@@ -33,25 +33,25 @@ const UserForm = ({userSelected, handlerCloseForm}) => {
         e.preventDefault();
 
         //validacion
-        if(!username || (!password && id === 0) || !email){
-            Swal.fire(
-                'Error de validacion',
-                'Todos los campos son obligatorios',
-                'error'
-            )
-            return;
-        }
+        // if(!username || (!password && id === 0) || !email){
+        //     Swal.fire(
+        //         'Error de validacion',
+        //         'Todos los campos son obligatorios',
+        //         'error'
+        //     )
+        //     return;
+        // }
 
-        if(!email.indexOf('@')){
-            Swal.fire(
-                'Error de validacion',
-                'Email no valido',
-                'error'
-            )
-            return;
-        }
+        // if(!email.indexOf('@')){
+        //     Swal.fire(
+        //         'Error de validacion',
+        //         'Email no valido',
+        //         'error'
+        //     )
+        //     return;
+        // }
         //guadar en la base de datos
-        setUserForm(userForm);
+        // setUserForm(userForm);
         handlerAddUser(userForm);
     }
 
@@ -74,6 +74,7 @@ const UserForm = ({userSelected, handlerCloseForm}) => {
                 onChange={onInputChange}
                 value={username}
             />
+            <p className='text-danger'>{errors?.username}</p>
             {id > 0 || 
                 <input 
                     type="password" 
@@ -84,6 +85,7 @@ const UserForm = ({userSelected, handlerCloseForm}) => {
                     value={password}
                 />
             }
+            <p className='text-danger'>{errors?.password}</p>
 
             <input 
                 type="email" 
@@ -93,6 +95,7 @@ const UserForm = ({userSelected, handlerCloseForm}) => {
                 onChange={onInputChange}
                 value={email}
             />
+            <p className='text-danger'>{errors?.email}</p>
             <input 
                 type="hidden" 
                 name='id'
