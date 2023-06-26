@@ -1,21 +1,22 @@
 import axios from "axios"
+import userApi from "../apis/usersApi";
 
-const API_URL = "http://localhost:8080/users";
+const API_URL = "";
 
-const config =() => {
+// const config =() => {
 
-    return{
-        headers: {
-            'Authorization': sessionStorage.getItem('token_useraApp'),
-            'Content-Type': 'application/json'
-        }
-    }
-}
+//     return{
+//         headers: {
+//             'Authorization': sessionStorage.getItem('token_useraApp'),
+//             'Content-Type': 'application/json'
+//         }
+//     }
+// }
 
 export const findAll = async () => {
 
     try {
-        const res = await axios.get(API_URL);
+        const res = await userApi.get(API_URL);
         console.log(res.data);
         return res;
     } catch (error) {
@@ -27,10 +28,10 @@ export const findAll = async () => {
 
 }
 
-export const save = async ({username, email, password }) => {
+export const save = async ({username, email, password, admin }) => {
 
     try {
-        return await axios.post(API_URL, {username, password, email}, config())
+        return await userApi.post(API_URL, {username, password, email, admin})
     } catch (error) {
         console.log(error);
         throw error;
@@ -39,9 +40,9 @@ export const save = async ({username, email, password }) => {
 }
 
 
-export const update = async ({id, username, email }) => {
+export const update = async ({id, username, email, admin }) => {
     try {
-        return await axios.put(`${API_URL}/${id}`, {username, email}, config())
+        return await userApi.put(`${API_URL}/${id}`, {username, email, admin})
     } catch (error) {
         console.log(error);
         throw error;
@@ -51,9 +52,10 @@ export const update = async ({id, username, email }) => {
 
 export const remove = async (id) => {
     try {
-        await axios.delete(`${API_URL}/${id}`, config())
+        await userApi.delete(`${API_URL}/${id}`)
     } catch (error) {
         console.log(error);
+        throw error;
     }
     return null;
 }

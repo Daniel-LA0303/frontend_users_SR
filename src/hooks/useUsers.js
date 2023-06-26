@@ -1,8 +1,9 @@
-import { useReducer, useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import { userSigninReducer } from "../reducers/usersReducers";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { findAll, remove, save, update } from "../services/userService";
+import { AuthContext } from "../auth/context/AuthContext";
 
 const initialUsers = [];
   
@@ -10,7 +11,8 @@ const initialUsers = [];
     id: 0,
     username: '',
     password: '',
-    email: ''
+    email: '',
+    admin: false    
   }
 
   const initialErrors = {
@@ -27,16 +29,27 @@ const initialUsers = [];
 
     const [errors, setErrors] = useState(initialErrors)
     const navigate = useNavigate()
+    const {login, handlerLogout} = useContext(AuthContext)
 
     const getUsers = async () => {
-      const result = await findAll();
-      dispatch({
-        type: 'loadingUsers',
-        payload: result.data
-      })
+
+      try {
+        const result = await findAll();
+        dispatch({
+          type: 'loadingUsers',
+          payload: result.data
+        })
+      } catch (error) {
+        if(error.response?.status === 401){
+          handlerLogout();
+        }
+      }
+
     }
   
     const handlerAddUser = async (user) => {
+
+        if(!login.isAdmin) return;
         console.log(user);
         let res;
 
@@ -73,6 +86,8 @@ const initialUsers = [];
               setErrors({email: 'El email ya existe'})
 
             }
+          }else if(error.response?.status === 401){
+            handlerLogout();
           }else{
             throw error;
           }
@@ -92,9 +107,10 @@ const initialUsers = [];
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
+          }).then(async (result) => {
             if (result.isConfirmed) {
-                remove(id);
+              try {
+                await remove(id);
                 dispatch({
                     type: 'removeUser',
                     payload: id
@@ -104,6 +120,12 @@ const initialUsers = [];
                     'Your file has been deleted.',
                     'success'
                 )
+              } catch (error) {
+                if(error.response?.status === 401){
+                  handlerLogout();
+                }
+              }
+
             }
           })
 

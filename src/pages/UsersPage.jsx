@@ -3,6 +3,7 @@ import { useUsers } from '../hooks/useUsers';
 import UserModalForm from '../components/UserModalForm';
 import UsersList from '../components/UsersList';
 import { UserContext } from '../context/userContext';
+import { AuthContext } from '../auth/context/AuthContext';
 
 const UsersPage = () => {
 
@@ -20,6 +21,7 @@ const UsersPage = () => {
     getUsers
   } = useContext(UserContext)
 
+  const {login} = useContext(AuthContext)
 
   useEffect(() => {
     getUsers()
@@ -44,7 +46,7 @@ const UsersPage = () => {
 
           
           <div className='col'>
-            {!visibleForm &&
+            {(!visibleForm || !login.isAdmin) ||
               <button
                 className='btn btn-primary my-2'
                 type='button'

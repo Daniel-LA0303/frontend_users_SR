@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../auth/context/AuthContext';
+import { UserContext } from '../context/userContext';
 
 const NavBar = () => {
 
     const {handlerLogout, login} = useContext(AuthContext)
+    // const {login} = useContext(UserContext)
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -19,9 +21,13 @@ const NavBar = () => {
                     <li className='nav-item'>
                         <NavLink className="nav-link" to="/users">Usuarios</NavLink>
                     </li>
-                    <li className='nav-item'>
-                        <NavLink className="nav-link" to="/users/register">Register</NavLink>
-                    </li>
+                    {
+                        !login.isAdmin ||
+                        <li className='nav-item'>
+                            <NavLink className="nav-link" to="/users/register">Register</NavLink>
+                        </li>
+                    }
+
                 </ul>
             </div>
 
