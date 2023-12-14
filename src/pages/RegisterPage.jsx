@@ -23,8 +23,8 @@ const RegisterPage = () => {
     }, [id])
 
   return (
-    <div className='container my-4'>
-        <h4>{userSelected.id > 0 ? 'Editar' : 'Registro de usuarios'}</h4>
+    <div className='mx-auto my-4'>
+        {/* <h4>{userSelected.id > 0 ? 'Update a User' : 'Register a User'}</h4> */}
         <div className='row'>
             <div className="col">
                 <UserForm 

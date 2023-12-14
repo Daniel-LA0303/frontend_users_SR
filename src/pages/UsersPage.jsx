@@ -34,30 +34,12 @@ const UsersPage = () => {
 
       />
     }
-      <div className='container my-4'>
-        <h2>Users App</h2>
-        <div className='row'>
-          
-            {/* {visibleForm &&  
-              <div className='col'>
-                
-              </div>
-          } */}
-
-          
-          <div className='col'>
-            {(!visibleForm || !login.isAdmin) ||
-              <button
-                className='btn btn-primary my-2'
-                type='button'
-                onClick={handlerShowForm}
-              >
-                Nuevo Usuario
-              </button>
-            }
-
+      <div className=''>
+        <h2 className=' text-center py-10 text-4xl text-hover font-bold'>Users Content</h2>
+        <div className=''>          
+          <div className=''>
             {users.length === 0
-              ? <p className='alert alert-warning'>No hay usuarios</p>
+              ? <p className=''>No hay usuarios</p>
               :             
               <UsersList 
               />
