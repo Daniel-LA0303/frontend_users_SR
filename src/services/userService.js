@@ -17,7 +17,7 @@ export const findAll = async () => {
 
     try {
         const res = await userApi.get(API_URL);
-        console.log(res.data);
+        // console.log(res.data);
         return res;
     } catch (error) {
         console.log(error);

@@ -35,9 +35,9 @@ const UsersPage = () => {
       />
     }
       <div className=''>
-        <h2 className=' text-center py-10 text-4xl text-hover font-bold'>Users Content</h2>
+        <h2 className=' text-center text-xl py-10 sm:text-4xl text-hover font-bold'>Users Content</h2>
         <div className=''>          
-          <div className=''>
+          <div className='mx-auto max-w-7xl '>
             {users.length === 0
               ? <p className=''>No hay usuarios</p>
               :             
