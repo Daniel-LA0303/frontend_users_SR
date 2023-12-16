@@ -39,45 +39,8 @@ const LoginPage = () => {
 
   return (
     <div className="modal" style={{display:'block'}} tabIndex="-1" role="dialog">
-        {/* <div className="modal-dialog" role="document">
-            <div className="modal-content">
-                <div className="modal-header">
-                    <h5 className="modal-title">New</h5>
-                </div>
-                <form 
-                    onSubmit={onSubmit}
-                >
-                    <div className="modal-body">
-                        <input 
-                            type="text" 
-                            className='form-control my-3 w-75'
-                            placeholder='Username'
-                            name='username'
-                            value={username}
-                            onChange={onInputChange}
-                        />
-                        <input
-                            type="password"
-                            className='form-control my-3 w-75'
-                            placeholder='Password'
-                            name='password'
-                            value={password}
-                            onChange={onInputChange}
-                        />
-                        
-                    </div>
-                    <div className="modal-footer">
-                        <button 
-                            type="submit" 
-                            className="btn btn-primary"
-                        >Login</button>
-                    </div>
-                </form>
-            </div>
-        </div> */}
-
         <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-            <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+            <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow rounded-xl flex justify-center flex-1">
                 <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
                     <div>
                         <p className=' text-center text-3xl'>APP-Users</p>
@@ -134,7 +97,7 @@ const LoginPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex-1 bg-hover text-center hidden lg:flex">
+                <div className="flex-1 bg-hover text-center hidden lg:flex rounded-r-xl">
                     <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
                         style={{ backgroundImage: "url('./login.svg')" }}>
                     </div>
